@@ -36,6 +36,7 @@
 			this.btnClear = new System.Windows.Forms.Button();
 			this.btnExit = new System.Windows.Forms.Button();
 			this.lblCheck = new System.Windows.Forms.Label();
+			this.lblIndex = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// lblEnglish
@@ -117,13 +118,24 @@
 			this.lblCheck.TabIndex = 5;
 			this.lblCheck.Text = "Check Status: ";
 			// 
+			// lblIndex
+			// 
+			this.lblIndex.AutoSize = true;
+			this.lblIndex.Location = new System.Drawing.Point(268, 14);
+			this.lblIndex.Name = "lblIndex";
+			this.lblIndex.Size = new System.Drawing.Size(39, 13);
+			this.lblIndex.TabIndex = 6;
+			this.lblIndex.Text = "Index: ";
+			this.lblIndex.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
 			// frmPigLatinTranslator
 			// 
 			this.AcceptButton = this.btnTranslate;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnExit;
-			this.ClientSize = new System.Drawing.Size(271, 254);
+			this.ClientSize = new System.Drawing.Size(403, 254);
+			this.Controls.Add(this.lblIndex);
 			this.Controls.Add(this.lblCheck);
 			this.Controls.Add(this.btnExit);
 			this.Controls.Add(this.btnClear);
@@ -150,6 +162,7 @@
 		private System.Windows.Forms.Button btnClear;
 		private System.Windows.Forms.Button btnExit;
 		private System.Windows.Forms.Label lblCheck;
+		private System.Windows.Forms.Label lblIndex;
 	}
 }
 

@@ -12,14 +12,13 @@ namespace PigLatinTranslator
 		private static String[] VowelsArray = vowels.Split();
 		private static String specChar = "~ ` ! @ # $ % ^ & * ( ) - _ = + | \\ } ] { [ : ; < , > . \" 0 1 2 3 4 5 6 7 8 9";
 		private static String[] specialCharacters = specChar.Split(' ');
-		private static String punctuation = ". , - : ! ? % ( ) [ ] { } _";
 		/* ------------------------------------------ */
 
 		public frmPigLatinTranslator()
 		{
 			InitializeComponent();
 			txtEnglish.Focus();
-			txtEnglish.Text = "This application will translate the English text you enter into Pig Latin. It will retain CASE and punctuation. It will also translate contractions, but it won't translate words that contain numbers or symbols, such as 86, bill@microsoft.com, or C#.";
+			txtEnglish.Text = "symbol";
 		}
 
 		private void btnExit_Click(object sender, EventArgs e)
@@ -37,7 +36,7 @@ namespace PigLatinTranslator
 		private void btnTranslate_Click(object sender, EventArgs e)
 		{
 			TranslateText();
-			if (txtPigLatin.Text.Equals("Isthay applicationway illway anslatetray ethay Englishway exttay ouyay enterway intoway lgpay Atinlay. Itway illway etainray ASECAY andway unctuationpay. Itway illway alsoway anslatetray ontractionscay, utbay itway on'tway anslatetray ordsway attay ontaincay umbersnay orway ymbolssay, uchsay asway 86, bill@microsoft.com, orway C#."))
+			if (txtPigLatin.Text.Equals("ymbolssay "))
 			{
 				lblCheck.Text = "Check Status: Works!";
 			}
@@ -59,56 +58,61 @@ namespace PigLatinTranslator
 			{
 				String myWord = word;
 				String firstLetter = myWord.Substring(0, 1);
-				String lastCharacter = myWord.Substring(myWord.Length, 1);
-				/* If myWord is not blank and doesn't contain any special characters */
-				if (!myWord.Equals("") && !specialCharacters.Any(myWord.Contains))
+				String lastCharacter = null;
+
+				/* Ending with punctuation */
+				bool EndsWithPunctuation = LastCharacter(myWord);
+				if (EndsWithPunctuation == true)
 				{
-				/* VOWEL OR CONTAINING 'Y' */
-					if (vowels.Contains(firstLetter) || myWord.ToLower().Substring(1, myWord.Length-1).Contains('y'))
+					lastCharacter = myWord.Substring(myWord.Length - 1, 1);
+					myWord = myWord.Remove(myWord.Length - 1, 1);
+				}
+
+				/* If myWord is not blank and doesn't contain any special characters */
+					if (!myWord.Equals("") && !specialCharacters.Any(myWord.Contains))
 					{
-						/* Upper Case */
-						if (myWord.Equals(myWord.ToUpper()))
+						/* VOWEL OR CONTAINING 'Y' */
+						if (vowels.Contains(firstLetter) || myWord.ToLower().Substring(1, myWord.Length - 1).Contains('y'))
 						{
-							myWord += "WAY";
-						}
-						/* Lower Case */
-						else
-						{
-							myWord += "way";
-						}
-					}
-				/* CONSONANT */
-					else
-					{
-						if (!vowels.Contains(firstLetter))
-						{							
-							/* UPPER CASE */
-							if ( myWord.Equals( myWord.ToUpper() ))
+							/* Upper Case */
+							if (myWord.Equals(myWord.ToUpper()))
 							{
-								myWord = processConsonant(myWord).ToUpper();
+								myWord += "WAY";
 							}
-							/* Title Case */
-							else if ( firstLetter.Equals( firstLetter.ToUpper() ))
-							{
-								myWord = processConsonant(myWord);
-								myWord = myWord.Substring(0, 1).ToUpper() + myWord.Substring(1, myWord.Length-1).ToLower();
-							}
-							/* lower case */
+							/* Lower Case */
 							else
 							{
-								myWord = processConsonant(myWord).ToLower();
+								myWord += "way";
+							}
+						}
+						/* CONSONANT */
+						else
+						{
+							if (!vowels.Contains(firstLetter))
+							{
+								/* UPPER CASE */
+								if (myWord.Equals(myWord.ToUpper()))
+								{
+									myWord = processConsonant(myWord).ToUpper();
+								}
+								/* Title Case */
+								else if (firstLetter.Equals(firstLetter.ToUpper()))
+								{
+									myWord = processConsonant(myWord);
+									myWord = myWord.Substring(0, 1).ToUpper() + myWord.Substring(1, myWord.Length - 1).ToLower();
+								}
+								/* lower case */
+								else
+								{
+									myWord = processConsonant(myWord).ToLower();
+								}
 							}
 						}
 					}
-				}
-				else if (!myWord.Equals("") && specialCharacters.Any(lastCharacter.Contains))
-				{
-
-				}
 
 				/* Append to sb StringBuilder and print to screen in txtPigLatin text-box */
-				sb.Append(myWord + " ");
-				txtPigLatin.Text = sb.ToString();
+				sb.Append(myWord + lastCharacter + " ");
+				txtPigLatin.Text = sb.ToString().TrimEnd(' ');
 			}
 		}
 
@@ -131,6 +135,16 @@ namespace PigLatinTranslator
 			int vowelIndex = GetVowelIndex(word);
 			String consanantWord = word.Substring(vowelIndex) + word.Substring(0, vowelIndex) + "ay";
 		return consanantWord;
+		}
+
+		private static bool LastCharacter(String word)
+		{
+			foreach (String character in specialCharacters)
+			{
+				if (word.EndsWith(character))
+					return true;
+			}
+			return false;
 		}
 	}
 }
