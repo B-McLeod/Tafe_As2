@@ -60,6 +60,7 @@
 			this.txtPigLatin.Location = new System.Drawing.Point(12, 131);
 			this.txtPigLatin.Multiline = true;
 			this.txtPigLatin.Name = "txtPigLatin";
+			this.txtPigLatin.ReadOnly = true;
 			this.txtPigLatin.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.txtPigLatin.Size = new System.Drawing.Size(240, 71);
 			this.txtPigLatin.TabIndex = 0;
@@ -82,6 +83,7 @@
 			this.btnTranslate.TabIndex = 2;
 			this.btnTranslate.Text = "&Translate";
 			this.btnTranslate.UseVisualStyleBackColor = true;
+			this.btnTranslate.Click += new System.EventHandler(this.btnTranslate_Click);
 			// 
 			// btnClear
 			// 
@@ -91,9 +93,11 @@
 			this.btnClear.TabIndex = 3;
 			this.btnClear.Text = "&Clear";
 			this.btnClear.UseVisualStyleBackColor = true;
+			this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
 			// 
 			// btnExit
 			// 
+			this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnExit.Location = new System.Drawing.Point(177, 209);
 			this.btnExit.Name = "btnExit";
 			this.btnExit.Size = new System.Drawing.Size(75, 23);
