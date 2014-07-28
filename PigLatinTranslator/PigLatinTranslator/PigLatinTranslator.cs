@@ -56,7 +56,16 @@ namespace PigLatinTranslator
 					/* Add 'way' if starts with Vowel or Y. */
 					if (vowels.Contains(firstLetter))
 					{
-						myWord += "way";
+						/* If word is in capitals */
+						if (myWord.Equals(myWord.ToUpper()))
+						{
+							myWord += "WAY";
+						}
+						/* If word is not in capitals */
+						else
+						{
+							myWord += "way";
+						}
 					}
 					/* If starts with consanant move first char to end and add 'ay' */
 					else
@@ -64,7 +73,23 @@ namespace PigLatinTranslator
 						if (!vowels.Contains(firstLetter))
 						{
 							myWord = word.Remove(0, 1);
-							myWord += firstLetter.ToString() + "ay";
+							
+							/* If word is in capitals */
+							if (myWord.Equals(myWord.ToUpper()))
+							{
+								myWord += firstLetter.ToString() + "AY";
+							}
+							/* If word is in Title Case */
+							/* PUT IN TITLE CASE ARGUMENT BELOW SOMEWHERE */
+							else if (myWord.Substring(0, 1).Equals(myWord.Substring(0, 1).ToUpper))
+							{
+								myWord += firstLetter.ToString().ToLower() + "ay";
+							}
+							/* If word is not in capitals */
+							else
+							{
+								myWord += firstLetter.ToString().ToLower() + "ay";
+							}
 						}
 					}
 				}
