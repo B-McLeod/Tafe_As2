@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace PigLatinTranslator
 {
 	public partial class frmPigLatinTranslator : Form
 	{
-		private static string vowels = "AEIOUaeiuoYy";
-		private static string specialCharacters = " ~`!@#$%^&*()-_=+|\\}]{[':;<,>.\"0123456789";
+		/* ------------------------------------------ */
+		private static String[] vowels = new string[12] { "A", "E", "I", "O", "U", "Y", "a", "e", "i", "o", "u", "y" };
+		private static String specChar = "~ ` ! @ # $ % ^ & * ( ) - _ = + | \\ } ] { [ ' : ; < , > . \" 0 1 2 3 4 5 6 7 8 9";
+		private static String[] specialCharacters = specChar.Split(' ');
+		/* ------------------------------------------ */
 
 		public frmPigLatinTranslator()
 		{
@@ -37,32 +38,38 @@ namespace PigLatinTranslator
 
 		private void TranslateText()
 		{
-			String phrase = txtEnglish.Text.Trim();							// Clean-up start and finish spaces.
-			String[] wordsArray = phrase.Split(' ');							// Split words into the 'words' array.
 			StringBuilder sb = new StringBuilder();
+
+			/* Import text and split into an array */
+			String phrase = txtEnglish.Text.Trim();
+			String[] wordsArray = phrase.Split(' ');
 
 			foreach (String word in wordsArray)
 			{
 				String myWord = word;
-				if (!myWord.Equals(""))									// If word is not blank
-				{
-					String firstLetter = myWord.Substring(0, 1);			// Get first letter of word
 
-					if (firstLetter.Equals("A") || firstLetter.Equals("E") || firstLetter.Equals("I") || firstLetter.Equals("O") || 
-						firstLetter.Equals("U") || firstLetter.Equals("a") || firstLetter.Equals("e") || firstLetter.Equals("i") || 
-						firstLetter.Equals("o") || firstLetter.Equals("u") || firstLetter.Equals("Y") || firstLetter.Equals("y"))								// If word starts with vowel, add 'way' at the end.
+				/* If myWord is not blank and doesn't contain any special characters */
+				if (!myWord.Equals("") && !specialCharacters.Any(myWord.Contains))
+				{
+					String firstLetter = myWord.Substring(0, 1);
+
+					/* Add 'way' if starts with Vowel or Y. */
+					if (vowels.Contains(firstLetter))
 					{
 						myWord += "way";
 					}
-					else															// If word does not start with a vowel, remove first letter
-					{																// and move it to the end of the word + 'ay'
-						if (!firstLetter.Equals(vowels))
+					/* If starts with consanant move first char to end and add 'ay' */
+					else
+					{
+						if (!vowels.Contains(firstLetter))
 						{
 							myWord = word.Remove(0, 1);
 							myWord += firstLetter.ToString() + "ay";
 						}
 					}
 				}
+
+				/* Append to sb StringBuilder and print to screen in txtPigLatin text-box */
 				sb.Append(myWord + " ");
 				txtPigLatin.Text = sb.ToString();
 			}
