@@ -10,8 +10,9 @@ namespace PigLatinTranslator
 		/* ------------------------------------------ */
 		private static String vowels = "AEIOUaeiou";
 		private static String[] VowelsArray = vowels.Split();
-		private static String specChar = "~ ` ! @ # $ % ^ & * ( ) - _ = + | \\ } ] { [ ' : ; < , > . \" 0 1 2 3 4 5 6 7 8 9";
+		private static String specChar = "~ ` ! @ # $ % ^ & * ( ) - _ = + | \\ } ] { [ : ; < , > . \" 0 1 2 3 4 5 6 7 8 9";
 		private static String[] specialCharacters = specChar.Split(' ');
+		private static String punctuation = ". , - : ! ? % ( ) [ ] { } _";
 		/* ------------------------------------------ */
 
 		public frmPigLatinTranslator()
@@ -58,11 +59,11 @@ namespace PigLatinTranslator
 			{
 				String myWord = word;
 				String firstLetter = myWord.Substring(0, 1);
-
+				String lastCharacter = myWord.Substring(myWord.Length, 1);
 				/* If myWord is not blank and doesn't contain any special characters */
 				if (!myWord.Equals("") && !specialCharacters.Any(myWord.Contains))
 				{
-				/* VOWEL OR CONTAINING 'Y'*/
+				/* VOWEL OR CONTAINING 'Y' */
 					if (vowels.Contains(firstLetter) || myWord.ToLower().Substring(1, myWord.Length-1).Contains('y'))
 					{
 						/* Upper Case */
@@ -75,12 +76,6 @@ namespace PigLatinTranslator
 						{
 							myWord += "way";
 						}
-					}
-				/* Y */
-					else if  (firstLetter.ToLower().Equals('y'))
-					{
-						int index = GetVowelIndex(myWord);
-						String untilFirstVowel = myWord.Substring(0, 1);
 					}
 				/* CONSONANT */
 					else
@@ -96,7 +91,7 @@ namespace PigLatinTranslator
 							else if ( firstLetter.Equals( firstLetter.ToUpper() ))
 							{
 								myWord = processConsonant(myWord);
-								myWord = myWord.Substring(0, 1).ToUpper() + myWord.Substring(1, myWord.Length-1);
+								myWord = myWord.Substring(0, 1).ToUpper() + myWord.Substring(1, myWord.Length-1).ToLower();
 							}
 							/* lower case */
 							else
@@ -105,6 +100,10 @@ namespace PigLatinTranslator
 							}
 						}
 					}
+				}
+				else if (!myWord.Equals("") && specialCharacters.Any(lastCharacter.Contains))
+				{
+
 				}
 
 				/* Append to sb StringBuilder and print to screen in txtPigLatin text-box */
