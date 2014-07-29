@@ -9,7 +9,7 @@ namespace PigLatinTranslator
 	{
 		/* ------------------------------------------ */
 		private static String vowels = "AEIOUaeiou";
-		private static String[] VowelsArray = vowels.Split();
+		private static String vowels2 = "AEIOUYaeiouy";
 		private static String specChar = "~ ` ! @ # $ % ^ & * ( ) - _ = + | \\ } ] { [ : ; < , > . \" 0 1 2 3 4 5 6 7 8 9";
 		private static String[] specialCharacters = specChar.Split(' ');
 		/* ------------------------------------------ */
@@ -35,7 +35,20 @@ namespace PigLatinTranslator
 
 		private void btnTranslate_Click(object sender, EventArgs e)
 		{
-			TranslateText();
+			if (String.IsNullOrEmpty(txtEnglish.Text))
+			{
+				MessageBox.Show("Uh oh! You forgot to add text to translate!", "Error");
+			}
+			else if (String.IsNullOrWhiteSpace(txtEnglish.Text))
+			{
+				MessageBox.Show("Uh oh! You forgot to add text to translate!", "Error");
+			}
+			else
+			{
+				TranslateText();
+			}
+
+			/* Check program */
 			if (txtPigLatin.Text.Equals("ymbolssay "))
 			{
 				lblCheck.Text = "Check Status: Works!";
@@ -60,36 +73,36 @@ namespace PigLatinTranslator
 				String firstLetter = myWord.Substring(0, 1);
 				String lastCharacter = null;
 
-				/* Ending with punctuation */
-				bool EndsWithPunctuation = LastCharacter(myWord);
-				if (EndsWithPunctuation == true)
+				/* Ending with punctuation
+				 * Known issue: If myWord ends with multiple puncuations, it will not translate */
+				if (isEndingInPuncuation(myWord) == true)
 				{
 					lastCharacter = myWord.Substring(myWord.Length - 1, 1);
 					myWord = myWord.Remove(myWord.Length - 1, 1);
 				}
 
 				/* If myWord is not blank and doesn't contain any special characters */
-					if (!myWord.Equals("") && !specialCharacters.Any(myWord.Contains))
+				if (!myWord.Equals("") && !specialCharacters.Any(myWord.Contains))
+				{
+					/* VOWEL OR CONTAINING 'Y' */
+					if (vowels.Contains(firstLetter))
 					{
-						/* VOWEL OR CONTAINING 'Y' */
-						if (vowels.Contains(firstLetter) || myWord.ToLower().Substring(1, myWord.Length - 1).Contains('y'))
+						/* Upper Case */
+						if (myWord.Equals(myWord.ToUpper()))
 						{
-							/* Upper Case */
-							if (myWord.Equals(myWord.ToUpper()))
-							{
-								myWord += "WAY";
-							}
-							/* Lower Case */
-							else
-							{
-								myWord += "way";
-							}
+							myWord += "WAY";
 						}
-						/* CONSONANT */
+						/* Lower Case */
 						else
 						{
-							if (!vowels.Contains(firstLetter))
-							{
+							myWord += "way";
+						}
+					}
+					/* CONSONANT */
+					else
+					{
+						if (!vowels.Contains(firstLetter))
+						{
 								/* UPPER CASE */
 								if (myWord.Equals(myWord.ToUpper()))
 								{
@@ -106,9 +119,9 @@ namespace PigLatinTranslator
 								{
 									myWord = processConsonant(myWord).ToLower();
 								}
-							}
 						}
 					}
+				}
 
 				/* Append to sb StringBuilder and print to screen in txtPigLatin text-box */
 				sb.Append(myWord + lastCharacter + " ");
@@ -116,20 +129,37 @@ namespace PigLatinTranslator
 			}
 		}
 
+		/* Get index of first vowel or Y */
 		private static int GetVowelIndex(String word)
 		{
 			int index = 0;
-			for (int i = 0; i < word.Length; i++)
+			if (word.ToLower().Substring(1, word.Length - 1).Contains('y'))
 			{
-				if (vowels.Contains(word[i]))
+				for (int i = 1; i < word.Length; i++)
 				{
-					index = i;
-					break;
+					if (vowels2.Contains(word[i]))
+					{
+						index = i;
+						break;
+					}
 				}
+				return index;
 			}
-		return index;
+			else
+			{
+				for (int i = 0; i < word.Length; i++)
+				{
+					if (vowels.Contains(word[i]))
+					{
+						index = i;
+						break;
+					}
+				}
+				return index;
+			}
 		}
 
+		/* Recreate the consonant word */
 		private static String processConsonant(String word)
 		{
 			int vowelIndex = GetVowelIndex(word);
@@ -137,14 +167,19 @@ namespace PigLatinTranslator
 		return consanantWord;
 		}
 
-		private static bool LastCharacter(String word)
+		/* Test if word is ending with punctuation */
+		private static bool isEndingInPuncuation(String word)
 		{
-			foreach (String character in specialCharacters)
+			Char lastCharacter = System.Convert.ToChar( word.Substring(word.Length - 1, 1) );
+
+			if (Char.IsPunctuation(lastCharacter) == true)
 			{
-				if (word.EndsWith(character))
-					return true;
+				return true;
 			}
-			return false;
+			else
+			{
+				return false;
+			}
 		}
 	}
 }
