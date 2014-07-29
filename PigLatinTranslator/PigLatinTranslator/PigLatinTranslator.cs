@@ -18,7 +18,6 @@ namespace PigLatinTranslator
 		{
 			InitializeComponent();
 			txtEnglish.Focus();
-			txtEnglish.Text = "symbol";
 		}
 
 		private void btnExit_Click(object sender, EventArgs e)
@@ -46,19 +45,11 @@ namespace PigLatinTranslator
 			else
 			{
 				TranslateText();
-			}
-
-			/* Check program */
-			if (txtPigLatin.Text.Equals("ymbolssay "))
-			{
-				lblCheck.Text = "Check Status: Works!";
-			}
-			else
-			{
-				lblCheck.Text = "Check Status: Not yet finished!";
+				txtEnglish.Focus();
 			}
 		}
 
+		/* Translate Text */
 		private void TranslateText()
 		{
 			StringBuilder sb = new StringBuilder();
@@ -103,22 +94,22 @@ namespace PigLatinTranslator
 					{
 						if (!vowels.Contains(firstLetter))
 						{
-								/* UPPER CASE */
-								if (myWord.Equals(myWord.ToUpper()))
-								{
-									myWord = processConsonant(myWord).ToUpper();
-								}
-								/* Title Case */
-								else if (firstLetter.Equals(firstLetter.ToUpper()))
-								{
-									myWord = processConsonant(myWord);
-									myWord = myWord.Substring(0, 1).ToUpper() + myWord.Substring(1, myWord.Length - 1).ToLower();
-								}
-								/* lower case */
-								else
-								{
-									myWord = processConsonant(myWord).ToLower();
-								}
+							/* UPPER CASE */
+							if (myWord.Equals(myWord.ToUpper()))
+							{
+								myWord = processConsonant(myWord).ToUpper();
+							}
+							/* Title Case */
+							else if (firstLetter.Equals(firstLetter.ToUpper()))
+							{
+								myWord = processConsonant(myWord);
+								myWord = myWord.Substring(0, 1).ToUpper() + myWord.Substring(1, myWord.Length - 1).ToLower();
+							}
+							/* lower case */
+							else
+							{
+								myWord = processConsonant(myWord).ToLower();
+							}
 						}
 					}
 				}
@@ -128,6 +119,7 @@ namespace PigLatinTranslator
 				txtPigLatin.Text = sb.ToString().TrimEnd(' ');
 			}
 		}
+
 
 		/* Get index of first vowel or Y */
 		private static int GetVowelIndex(String word)
@@ -159,18 +151,20 @@ namespace PigLatinTranslator
 			}
 		}
 
+
 		/* Recreate the consonant word */
 		private static String processConsonant(String word)
 		{
 			int vowelIndex = GetVowelIndex(word);
 			String consanantWord = word.Substring(vowelIndex) + word.Substring(0, vowelIndex) + "ay";
-		return consanantWord;
+			return consanantWord;
 		}
+
 
 		/* Test if word is ending with punctuation */
 		private static bool isEndingInPuncuation(String word)
 		{
-			Char lastCharacter = System.Convert.ToChar( word.Substring(word.Length - 1, 1) );
+			Char lastCharacter = System.Convert.ToChar(word.Substring(word.Length - 1, 1));
 
 			if (Char.IsPunctuation(lastCharacter) == true)
 			{

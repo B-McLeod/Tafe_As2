@@ -35,8 +35,6 @@
 			this.btnTranslate = new System.Windows.Forms.Button();
 			this.btnClear = new System.Windows.Forms.Button();
 			this.btnExit = new System.Windows.Forms.Button();
-			this.lblCheck = new System.Windows.Forms.Label();
-			this.lblIndex = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// lblEnglish
@@ -56,6 +54,7 @@
 			this.txtEnglish.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.txtEnglish.Size = new System.Drawing.Size(240, 71);
 			this.txtEnglish.TabIndex = 1;
+			this.txtEnglish.TextChanged += new System.EventHandler(this.btnTranslate_Click);
 			// 
 			// txtPigLatin
 			// 
@@ -108,35 +107,13 @@
 			this.btnExit.UseVisualStyleBackColor = true;
 			this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
 			// 
-			// lblCheck
-			// 
-			this.lblCheck.AutoSize = true;
-			this.lblCheck.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.lblCheck.Location = new System.Drawing.Point(9, 235);
-			this.lblCheck.Name = "lblCheck";
-			this.lblCheck.Size = new System.Drawing.Size(77, 13);
-			this.lblCheck.TabIndex = 5;
-			this.lblCheck.Text = "Check Status: ";
-			// 
-			// lblIndex
-			// 
-			this.lblIndex.AutoSize = true;
-			this.lblIndex.Location = new System.Drawing.Point(268, 14);
-			this.lblIndex.Name = "lblIndex";
-			this.lblIndex.Size = new System.Drawing.Size(39, 13);
-			this.lblIndex.TabIndex = 6;
-			this.lblIndex.Text = "Index: ";
-			this.lblIndex.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
 			// frmPigLatinTranslator
 			// 
 			this.AcceptButton = this.btnTranslate;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnExit;
-			this.ClientSize = new System.Drawing.Size(403, 254);
-			this.Controls.Add(this.lblIndex);
-			this.Controls.Add(this.lblCheck);
+			this.ClientSize = new System.Drawing.Size(266, 254);
 			this.Controls.Add(this.btnExit);
 			this.Controls.Add(this.btnClear);
 			this.Controls.Add(this.btnTranslate);
@@ -161,8 +138,6 @@
 		private System.Windows.Forms.Button btnTranslate;
 		private System.Windows.Forms.Button btnClear;
 		private System.Windows.Forms.Button btnExit;
-		private System.Windows.Forms.Label lblCheck;
-		private System.Windows.Forms.Label lblIndex;
 	}
 }
 
